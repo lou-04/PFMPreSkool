@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% block title %}Add Teacher{% endblock %}
+{% block page_title %}Add Teacher{% endblock %}
+{% block content %}
+<nav aria-label="breadcrumb" class="mb-3"><ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{% url 'teacher_list' %}">Teachers</a></li>
+    <li class="breadcrumb-item active">Add</li>
+</ol></nav>
+<form method="post" enctype="multipart/form-data">{% csrf_token %}
+<div class="row g-3">
+    <div class="col-md-8">
+        <div class="card"><div class="card-header fw-semibold">Teacher Information</div><div class="card-body">
+            <div class="row g-2">
+                <div class="col-md-6"><label class="form-label">First Name</label><input type="text" name="first_name" class="form-control" required></div>
+                <div class="col-md-6"><label class="form-label">Last Name</label><input type="text" name="last_name" class="form-control" required></div>
+                <div class="col-md-4"><label class="form-label">Teacher ID</label><input type="text" name="teacher_id" class="form-control" required></div>
+                <div class="col-md-4"><label class="form-label">Gender</label>
+                    <select name="gender" class="form-select"><option>Male</option><option>Female</option></select></div>
+                <div class="col-md-4"><label class="form-label">Date of Birth</label><input type="date" name="date_of_birth" class="form-control" required></div>
+                <div class="col-md-6"><label class="form-label">Department</label>
+                    <select name="department" class="form-select"><option value="">-- None --</option>
+                    {% for d in departments %}<option value="{{ d.pk }}">{{ d.name }}</option>{% endfor %}
+                    </select></div>
+                <div class="col-md-6"><label class="form-label">Joining Date</label><input type="date" name="joining_date" class="form-control" required></div>
+                <div class="col-md-6"><label class="form-label">Mobile</label><input type="text" name="mobile_number" class="form-control" required></div>
+                <div class="col-md-6"><label class="form-label">Email</label><input type="email" name="email" class="form-control" required></div>
+                <div class="col-12"><label class="form-label">Address</label><textarea name="address" class="form-control" rows="2"></textarea></div>
+                <div class="col-12"><label class="form-label">Photo</label><input type="file" name="teacher_image" class="form-control" accept="image/*"></div>
+            </div>
+        </div></div>
+    </div>
+    <div class="col-md-4"><div class="card p-3">
+        <button type="submit" class="btn btn-primary w-100 mb-2">Save Teacher</button>
+        <a href="{% url 'teacher_list' %}" class="btn btn-outline-secondary w-100">Cancel</a>
+    </div></div>
+</div>
+</form>
+{% endblock %}

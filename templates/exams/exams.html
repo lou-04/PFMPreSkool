@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block title %}Exams{% endblock %}
+{% block page_title %}Exams{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <nav aria-label="breadcrumb"><ol class="breadcrumb mb-0">
+        <li class="breadcrumb-item"><a href="{% url 'dashboard' %}">Dashboard</a></li>
+        <li class="breadcrumb-item active">Exams</li>
+    </ol></nav>
+    <a href="{% url 'add_exam' %}" class="btn btn-primary btn-sm"><i class="bi bi-plus-circle me-1"></i> Add Exam</a>
+</div>
+<div class="card"><div class="card-body p-0"><div class="table-responsive">
+    <table class="table table-hover mb-0"><thead class="table-light"><tr>
+        <th>Name</th><th>Subject</th><th>Date</th><th>Total</th><th>Pass</th><th>Actions</th>
+    </tr></thead><tbody>
+    {% for e in exams %}
+    <tr>
+        <td>{{ e.name }}</td>
+        <td>{{ e.subject.name }}</td>
+        <td>{{ e.exam_date }}</td>
+        <td>{{ e.total_marks }}</td>
+        <td>{{ e.pass_marks }}</td>
+        <td>
+            <a href="{% url 'exam_results' e.pk %}" class="btn btn-sm btn-outline-success"><i class="bi bi-list-check"></i> Results</a>
+            <a href="{% url 'edit_exam' e.pk %}" class="btn btn-sm btn-outline-warning"><i class="bi bi-pencil"></i></a>
+            <a href="{% url 'delete_exam' e.pk %}" class="btn btn-sm btn-outline-danger"><i class="bi bi-trash"></i></a>
+        </td>
+    </tr>
+    {% empty %}<tr><td colspan="6" class="text-center text-muted py-4">No exams yet.</td></tr>
+    {% endfor %}
+    </tbody></table>
+</div></div></div>
+{% endblock %}
