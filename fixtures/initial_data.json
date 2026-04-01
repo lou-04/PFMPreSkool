@@ -1,0 +1,56 @@
+[
+  {
+    "model": "department.department",
+    "pk": 1,
+    "fields": {
+      "name": "Mathematics",
+      "description": "Department of Mathematics and Statistics",
+      "created_at": "2025-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "department.department",
+    "pk": 2,
+    "fields": {
+      "name": "Sciences",
+      "description": "Department of Physics, Chemistry and Biology",
+      "created_at": "2025-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "department.department",
+    "pk": 3,
+    "fields": {
+      "name": "Languages",
+      "description": "Department of Arabic, French and English",
+      "created_at": "2025-01-01T00:00:00Z"
+    }
+  },
+  {
+    "model": "holiday.holiday",
+    "pk": 1,
+    "fields": {
+      "name": "New Year",
+      "date": "2026-01-01",
+      "description": "New Year's Day"
+    }
+  },
+  {
+    "model": "holiday.holiday",
+    "pk": 2,
+    "fields": {
+      "name": "Independence Day",
+      "date": "2026-11-18",
+      "description": "Moroccan Independence Day"
+    }
+  },
+  {
+    "model": "holiday.holiday",
+    "pk": 3,
+    "fields": {
+      "name": "Eid al-Adha",
+      "date": "2026-06-16",
+      "description": "Islamic holiday"
+    }
+  }
+]
