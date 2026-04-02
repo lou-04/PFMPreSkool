@@ -2,7 +2,7 @@
 
 A complete school management web application built with Django, covering student management, staff management, scheduling, and examination tracking.
 
-# link fro the demonstration video :
+# link for the demonstration video :
 
 https://youtu.be/qpIwrGMjBQk
 
