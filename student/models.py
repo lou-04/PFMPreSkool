@@ -1,4 +1,5 @@
 from django.db import models
+from django.conf import settings
 
 
 class Parent(models.Model):
@@ -32,6 +33,7 @@ class Student(models.Model):
     section = models.CharField(max_length=10)
     student_image = models.ImageField(upload_to='students/', blank=True, null=True)
     parent = models.OneToOneField(Parent, on_delete=models.CASCADE)
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True)
 
     def __str__(self):
         return f"{self.first_name} {self.last_name} ({self.student_id})"

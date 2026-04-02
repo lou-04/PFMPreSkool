@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% block title %}My Results{% endblock %}
+{% block page_title %}My Results{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <nav aria-label="breadcrumb"><ol class="breadcrumb mb-0">
+        <li class="breadcrumb-item"><a href="{% url 'dashboard' %}">Dashboard</a></li>
+        <li class="breadcrumb-item active">My Results</li>
+    </ol></nav>
+</div>
+<div class="card"><div class="card-body p-0"><div class="table-responsive">
+    <table class="table table-hover mb-0"><thead class="table-light"><tr>
+        <th>Exam</th><th>Subject</th><th>Date</th><th>Marks</th><th>Total</th><th>Status</th><th>Remarks</th>
+    </tr></thead><tbody>
+    {% for r in results %}
+    <tr>
+        <td>{{ r.exam.name }}</td>
+        <td>{{ r.exam.subject.name }}</td>
+        <td>{{ r.exam.exam_date }}</td>
+        <td>{{ r.marks_obtained }}</td>
+        <td>{{ r.exam.total_marks }}</td>
+        <td>
+            {% if r.passed %}
+                <span class="badge bg-success">Passed</span>
+            {% else %}
+                <span class="badge bg-danger">Failed</span>
+            {% endif %}
+        </td>
+        <td>{{ r.remarks|default:"-" }}</td>
+    </tr>
+    {% empty %}
+    <tr><td colspan="7" class="text-center text-muted py-4">No results yet.</td></tr>
+    {% endfor %}
+    </tbody></table>
+</div></div></div>
+{% endblock %}

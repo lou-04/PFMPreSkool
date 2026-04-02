@@ -4,6 +4,7 @@ from django.contrib import messages
 from .models import TimeTable
 from subject.models import Subject
 from teacher.models import Teacher
+from home_auth.decorators import admin_required
 
 
 @login_required
@@ -16,6 +17,7 @@ def timetable_list(request):
 
 
 @login_required
+@admin_required
 def add_timetable(request):
     subjects = Subject.objects.all()
     teachers = Teacher.objects.all()
@@ -37,6 +39,7 @@ def add_timetable(request):
 
 
 @login_required
+@admin_required
 def edit_timetable(request, pk):
     entry = get_object_or_404(TimeTable, pk=pk)
     subjects = Subject.objects.all()
@@ -58,6 +61,7 @@ def edit_timetable(request, pk):
 
 
 @login_required
+@admin_required
 def delete_timetable(request, pk):
     entry = get_object_or_404(TimeTable, pk=pk)
     if request.method == 'POST':

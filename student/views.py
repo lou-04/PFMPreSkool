@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from .models import Student, Parent
+from home_auth.decorators import admin_required
 
 
 @login_required
@@ -11,6 +12,7 @@ def student_list(request):
 
 
 @login_required
+@admin_required
 def add_student(request):
     if request.method == 'POST':
         parent = Parent.objects.create(
@@ -51,6 +53,7 @@ def view_student(request, student_id):
 
 
 @login_required
+@admin_required
 def edit_student(request, student_id):
     student = get_object_or_404(Student, student_id=student_id)
     if request.method == 'POST':
@@ -84,6 +87,7 @@ def edit_student(request, student_id):
 
 
 @login_required
+@admin_required
 def delete_student(request, student_id):
     student = get_object_or_404(Student, student_id=student_id)
     if request.method == 'POST':

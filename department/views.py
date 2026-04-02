@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from .models import Department
+from home_auth.decorators import admin_required
 
 
 @login_required
@@ -11,6 +12,7 @@ def department_list(request):
 
 
 @login_required
+@admin_required
 def add_department(request):
     if request.method == 'POST':
         Department.objects.create(
@@ -23,6 +25,7 @@ def add_department(request):
 
 
 @login_required
+@admin_required
 def edit_department(request, pk):
     dept = get_object_or_404(Department, pk=pk)
     if request.method == 'POST':
@@ -35,6 +38,7 @@ def edit_department(request, pk):
 
 
 @login_required
+@admin_required
 def delete_department(request, pk):
     dept = get_object_or_404(Department, pk=pk)
     if request.method == 'POST':

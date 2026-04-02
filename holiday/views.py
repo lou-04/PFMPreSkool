@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from .models import Holiday
+from home_auth.decorators import admin_required
 
 
 @login_required
@@ -11,6 +12,7 @@ def holiday_list(request):
 
 
 @login_required
+@admin_required
 def add_holiday(request):
     if request.method == 'POST':
         Holiday.objects.create(
@@ -24,6 +26,7 @@ def add_holiday(request):
 
 
 @login_required
+@admin_required
 def edit_holiday(request, pk):
     holiday = get_object_or_404(Holiday, pk=pk)
     if request.method == 'POST':
@@ -37,6 +40,7 @@ def edit_holiday(request, pk):
 
 
 @login_required
+@admin_required
 def delete_holiday(request, pk):
     holiday = get_object_or_404(Holiday, pk=pk)
     if request.method == 'POST':

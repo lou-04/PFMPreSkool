@@ -4,6 +4,8 @@ from django.contrib import messages
 from .models import Exam, ExamResult
 from subject.models import Subject
 from student.models import Student
+from home_auth.decorators import admin_required, teacher_or_admin_required
+from django.core.exceptions import PermissionDenied
 
 
 @login_required
@@ -13,6 +15,7 @@ def exam_list(request):
 
 
 @login_required
+@admin_required
 def add_exam(request):
     subjects = Subject.objects.all()
     if request.method == 'POST':
@@ -29,6 +32,7 @@ def add_exam(request):
 
 
 @login_required
+@admin_required
 def edit_exam(request, pk):
     exam = get_object_or_404(Exam, pk=pk)
     subjects = Subject.objects.all()
@@ -45,6 +49,7 @@ def edit_exam(request, pk):
 
 
 @login_required
+@admin_required
 def delete_exam(request, pk):
     exam = get_object_or_404(Exam, pk=pk)
     if request.method == 'POST':
@@ -55,6 +60,7 @@ def delete_exam(request, pk):
 
 
 @login_required
+@teacher_or_admin_required
 def exam_results(request, pk):
     exam = get_object_or_404(Exam, pk=pk)
     results = ExamResult.objects.filter(exam=exam).select_related('student')
@@ -75,3 +81,15 @@ def exam_results(request, pk):
         'exam': exam, 'results': results,
         'students_without_result': students_without_result,
     })
+
+@login_required
+def my_results(request):
+    if not request.user.is_student:
+        raise PermissionDenied
+    try:
+        student = request.user.student
+    except:
+        messages.error(request, 'No student profile linked to your account.')
+        return redirect('dashboard')
+    results = ExamResult.objects.filter(student=student).select_related('exam', 'exam__subject')
+    return render(request, 'exams/my-results.html', {'results': results})
