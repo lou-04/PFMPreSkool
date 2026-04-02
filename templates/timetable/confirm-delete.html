@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block title %}Delete Timetable Entry{% endblock %}
+{% block page_title %}Delete Timetable Entry{% endblock %}
+{% block content %}
+<div class="row justify-content-center"><div class="col-md-5">
+    <div class="card border-danger"><div class="card-header bg-danger text-white">Confirm Deletion</div>
+    <div class="card-body text-center py-4">
+        <p>Delete entry: <strong>{{ entry.class_name }} {{ entry.section }} - {{ entry.subject.name }} ({{ entry.day }})</strong>?</p>
+        <form method="post" class="d-flex gap-2 justify-content-center mt-3">{% csrf_token %}
+            <button type="submit" class="btn btn-danger">Yes, Delete</button>
+            <a href="{% url 'timetable_list' %}" class="btn btn-outline-secondary">Cancel</a>
+        </form>
+    </div></div>
+</div></div>
+{% endblock %}

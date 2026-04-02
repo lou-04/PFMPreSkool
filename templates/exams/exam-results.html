@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% block title %}Exam Results{% endblock %}
+{% block page_title %}Exam Results{% endblock %}
+{% block content %}
+<nav aria-label="breadcrumb" class="mb-3"><ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{% url 'exam_list' %}">Exams</a></li>
+    <li class="breadcrumb-item active">{{ exam.name }} Results</li>
+</ol></nav>
+
+<div class="row g-3">
+    <div class="col-md-8">
+        <div class="card mb-3"><div class="card-header fw-semibold">Recorded Results</div>
+        <div class="card-body p-0"><div class="table-responsive">
+            <table class="table table-hover mb-0"><thead class="table-light"><tr>
+                <th>Student</th><th>Marks</th><th>Status</th><th>Remarks</th>
+            </tr></thead><tbody>
+            {% for r in results %}
+            <tr>
+                <td>{{ r.student.first_name }} {{ r.student.last_name }}</td>
+                <td>{{ r.marks_obtained }} / {{ exam.total_marks }}</td>
+                <td>
+                    {% if r.passed %}<span class="badge bg-success">Pass</span>
+                    {% else %}<span class="badge bg-danger">Fail</span>{% endif %}
+                </td>
+                <td class="text-muted small">{{ r.remarks|default:"-" }}</td>
+            </tr>
+            {% empty %}<tr><td colspan="4" class="text-center text-muted py-3">No results yet.</td></tr>
+            {% endfor %}
+            </tbody></table>
+        </div></div></div>
+    </div>
+    <div class="col-md-4">
+        <div class="card"><div class="card-header fw-semibold">Add / Update Result</div><div class="card-body">
+        <form method="post">{% csrf_token %}
+            <div class="mb-3"><label class="form-label">Student</label>
+                <select name="student_id" class="form-select" required>
+                    <option value="">-- Select --</option>
+                    {% for s in students_without_result %}
+                    <option value="{{ s.pk }}">{{ s.first_name }} {{ s.last_name }}</option>
+                    {% endfor %}
+                    {% for r in results %}
+                    <option value="{{ r.student.pk }}">{{ r.student.first_name }} {{ r.student.last_name }} (update)</option>
+                    {% endfor %}
+                </select></div>
+            <div class="mb-3"><label class="form-label">Marks Obtained</label>
+                <input type="number" name="marks_obtained" class="form-control" min="0" max="{{ exam.total_marks }}" required></div>
+            <div class="mb-3"><label class="form-label">Remarks</label>
+                <input type="text" name="remarks" class="form-control"></div>
+            <button type="submit" class="btn btn-primary w-100">Save Result</button>
+        </form>
+        </div></div>
+    </div>
+</div>
+{% endblock %}

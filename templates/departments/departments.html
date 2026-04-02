@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% block title %}Departments{% endblock %}
+{% block page_title %}Departments{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <nav aria-label="breadcrumb"><ol class="breadcrumb mb-0">
+        <li class="breadcrumb-item"><a href="{% url 'dashboard' %}">Dashboard</a></li>
+        <li class="breadcrumb-item active">Departments</li>
+    </ol></nav>
+    <a href="{% url 'add_department' %}" class="btn btn-primary btn-sm"><i class="bi bi-plus-circle me-1"></i> Add Department</a>
+</div>
+<div class="row g-3">
+{% for dept in departments %}
+<div class="col-md-4">
+    <div class="card">
+        <div class="card-body">
+            <h6 class="fw-bold"><i class="bi bi-building me-2 text-primary"></i>{{ dept.name }}</h6>
+            <p class="text-muted small mb-2">{{ dept.description|default:"No description." }}</p>
+            <small class="text-muted">{{ dept.teachers.count }} teacher(s)</small>
+            <div class="mt-2 d-flex gap-2">
+                <a href="{% url 'edit_department' dept.pk %}" class="btn btn-sm btn-outline-warning"><i class="bi bi-pencil"></i></a>
+                <a href="{% url 'delete_department' dept.pk %}" class="btn btn-sm btn-outline-danger"><i class="bi bi-trash"></i></a>
+            </div>
+        </div>
+    </div>
+</div>
+{% empty %}
+<div class="col-12"><p class="text-muted text-center">No departments yet.</p></div>
+{% endfor %}
+</div>
+{% endblock %}

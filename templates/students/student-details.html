@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% block title %}Student Details{% endblock %}
+{% block page_title %}Student Details{% endblock %}
+
+{% block content %}
+<nav aria-label="breadcrumb" class="mb-3">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{% url 'dashboard' %}">Dashboard</a></li>
+        <li class="breadcrumb-item"><a href="{% url 'student_list' %}">Students</a></li>
+        <li class="breadcrumb-item active">{{ student.first_name }} {{ student.last_name }}</li>
+    </ol>
+</nav>
+
+<div class="row g-3">
+    <div class="col-md-4">
+        <div class="card p-3 text-center">
+            {% if student.student_image %}
+            <img src="{{ student.student_image.url }}" class="rounded-circle mb-3" style="width:120px;height:120px;object-fit:cover">
+            {% else %}
+            <div class="bg-secondary rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width:120px;height:120px;margin:0 auto">
+                <i class="bi bi-person fs-1 text-white"></i>
+            </div>
+            {% endif %}
+            <h5 class="fw-bold">{{ student.first_name }} {{ student.last_name }}</h5>
+            <span class="badge bg-primary">ID: {{ student.student_id }}</span>
+            <div class="mt-3 d-flex gap-2 justify-content-center">
+                <a href="{% url 'edit_student' student.student_id %}" class="btn btn-sm btn-warning">Edit</a>
+                <a href="{% url 'delete_student' student.student_id %}" class="btn btn-sm btn-danger">Delete</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-8">
+        <div class="card mb-3">
+            <div class="card-header fw-semibold">Student Info</div>
+            <div class="card-body">
+                <dl class="row mb-0">
+                    <dt class="col-sm-4">Gender</dt><dd class="col-sm-8">{{ student.gender }}</dd>
+                    <dt class="col-sm-4">Date of Birth</dt><dd class="col-sm-8">{{ student.date_of_birth }}</dd>
+                    <dt class="col-sm-4">Class</dt><dd class="col-sm-8">{{ student.student_class }} - {{ student.section }}</dd>
+                    <dt class="col-sm-4">Joining Date</dt><dd class="col-sm-8">{{ student.joining_date }}</dd>
+                    <dt class="col-sm-4">Mobile</dt><dd class="col-sm-8">{{ student.mobile_number }}</dd>
+                    <dt class="col-sm-4">Admission No.</dt><dd class="col-sm-8">{{ student.admission_number }}</dd>
+                </dl>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header fw-semibold">Parent Info</div>
+            <div class="card-body">
+                <dl class="row mb-0">
+                    <dt class="col-sm-4">Father</dt><dd class="col-sm-8">{{ student.parent.father_name }} ({{ student.parent.father_mobile }})</dd>
+                    <dt class="col-sm-4">Mother</dt><dd class="col-sm-8">{{ student.parent.mother_name }} ({{ student.parent.mother_mobile }})</dd>
+                    <dt class="col-sm-4">Address</dt><dd class="col-sm-8">{{ student.parent.present_address }}</dd>
+                </dl>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
