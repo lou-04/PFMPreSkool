@@ -7,7 +7,14 @@
         <li class="breadcrumb-item"><a href="{% url 'dashboard' %}">Dashboard</a></li>
         <li class="breadcrumb-item active">Exams</li>
     </ol></nav>
-    <a href="{% url 'add_exam' %}" class="btn btn-primary btn-sm"><i class="bi bi-plus-circle me-1"></i> Add Exam</a>
+    <div>
+        {% if request.user.is_student %}
+        <a href="{% url 'my_results' %}" class="btn btn-success btn-sm"><i class="bi bi-list-check me-1"></i> My Results</a>
+        {% endif %}
+        {% if request.user.is_admin %}
+        <a href="{% url 'add_exam' %}" class="btn btn-primary btn-sm"><i class="bi bi-plus-circle me-1"></i> Add Exam</a>
+        {% endif %}
+    </div>
 </div>
 <div class="card"><div class="card-body p-0"><div class="table-responsive">
     <table class="table table-hover mb-0"><thead class="table-light"><tr>
@@ -21,7 +28,9 @@
         <td>{{ e.total_marks }}</td>
         <td>{{ e.pass_marks }}</td>
         <td>
-            <a href="{% url 'exam_results' e.pk %}" class="btn btn-sm btn-outline-success"><i class="bi bi-list-check"></i> Results</a>
+            {% if request.user.is_admin or request.user.is_teacher %}
+               <a href="{% url 'exam_results' e.pk %}" class="btn btn-sm btn-outline-success"><i class="bi bi-list-check"></i> Results</a>
+            {% endif %}
             <a href="{% url 'edit_exam' e.pk %}" class="btn btn-sm btn-outline-warning"><i class="bi bi-pencil"></i></a>
             <a href="{% url 'delete_exam' e.pk %}" class="btn btn-sm btn-outline-danger"><i class="bi bi-trash"></i></a>
         </td>

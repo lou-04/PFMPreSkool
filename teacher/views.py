@@ -3,6 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from .models import Teacher
 from department.models import Department
+from home_auth.decorators import admin_required
 
 
 @login_required
@@ -12,6 +13,7 @@ def teacher_list(request):
 
 
 @login_required
+@admin_required
 def add_teacher(request):
     departments = Department.objects.all()
     if request.method == 'POST':
@@ -41,6 +43,7 @@ def view_teacher(request, teacher_id):
 
 
 @login_required
+@admin_required
 def edit_teacher(request, teacher_id):
     teacher = get_object_or_404(Teacher, teacher_id=teacher_id)
     departments = Department.objects.all()
@@ -65,6 +68,7 @@ def edit_teacher(request, teacher_id):
 
 
 @login_required
+@admin_required
 def delete_teacher(request, teacher_id):
     teacher = get_object_or_404(Teacher, teacher_id=teacher_id)
     if request.method == 'POST':

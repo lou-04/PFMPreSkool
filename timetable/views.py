@@ -5,6 +5,8 @@ from .models import TimeTable
 from subject.models import Subject
 from teacher.models import Teacher
 from home_auth.decorators import admin_required
+from django.http import JsonResponse
+import json
 
 
 @login_required
@@ -69,3 +71,26 @@ def delete_timetable(request, pk):
         messages.success(request, 'Timetable entry deleted.')
         return redirect('timetable_list')
     return render(request, 'timetable/confirm-delete.html', {'entry': entry})
+
+@login_required
+def timetable_calendar_data(request):
+    DAY_TO_NUM = {
+        'Monday': 1, 'Tuesday': 2, 'Wednesday': 3,
+        'Thursday': 4, 'Friday': 5, 'Saturday': 6
+    }
+    entries = TimeTable.objects.select_related('subject', 'teacher').all()
+    events = []
+    for e in entries:
+        day_num = DAY_TO_NUM.get(e.day, 1)
+        events.append({
+            'title': f"{e.subject.name} - {e.class_name} {e.section}",
+            'startTime': e.start_time.strftime('%H:%M:%S'),
+            'endTime': e.end_time.strftime('%H:%M:%S'),
+            'daysOfWeek': [day_num],
+            'extendedProps': {
+                'teacher': str(e.teacher) if e.teacher else '-',
+                'class': e.class_name,
+                'section': e.section,
+            }
+        })
+    return JsonResponse(events, safe=False)
